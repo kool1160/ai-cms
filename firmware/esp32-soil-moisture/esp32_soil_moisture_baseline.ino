@@ -1,10 +1,10 @@
 /*
-  AI-CMS V1-M4 — Local ESP32 Web Dashboard Shell
+  AI-CMS V1-M5 — Hourly Reading Storage
 
   Purpose:
   Read one capacitive soil moisture sensor on an ESP32, print raw analog values,
-  output a basic soil status to the Serial Monitor, and serve a simple local
-  dashboard page from the ESP32.
+  output a basic soil status to the Serial Monitor, serve a simple local dashboard,
+  and keep recent hourly readings in runtime memory.
 
   Wiring / Pin Notes:
   - Sensor VCC  -> ESP32 3.3V
@@ -25,8 +25,8 @@
 
   Guardrails:
   - One sensor only.
-  - Local dashboard only.
-  - No hourly storage, bar graph, cloud, AI analytics, or mobile app features.
+  - Runtime memory only.
+  - No database, bar graph, cloud, AI analytics, or mobile app features.
 */
 
 #include <WiFi.h>
@@ -37,16 +37,27 @@ const char* WIFI_PASSWORD = "YOUR_WIFI_PASSWORD";
 
 const int SOIL_MOISTURE_PIN = 34;
 const unsigned long READ_INTERVAL_MS = 1000;
+const unsigned long HOURLY_CAPTURE_INTERVAL_MS = 3600000;
+const int MAX_READING_HISTORY = 24;
 
 // Temporary starting thresholds. Calibrate with real dry-air and wet-soil readings.
 const int DRY_THRESHOLD = 3000;
 const int WATCH_THRESHOLD = 2400;
 const int GOOD_THRESHOLD = 1600;
 
+struct MoistureReading {
+  unsigned long capturedAtMs;
+  int rawValue;
+  String status;
+};
+
 WebServer server(80);
 unsigned long lastReadTime = 0;
+unsigned long lastHourlyCaptureTime = 0;
 int currentRawMoistureValue = 0;
 String currentMoistureStatus = "UNKNOWN";
+MoistureReading readingHistory[MAX_READING_HISTORY];
+int readingHistoryCount = 0;
 
 String getMoistureStatus(int rawValue) {
   if (rawValue >= DRY_THRESHOLD) {
@@ -64,6 +75,35 @@ String getMoistureStatus(int rawValue) {
   return "WET";
 }
 
+String formatElapsedTime(unsigned long capturedAtMs) {
+  unsigned long elapsedMs = millis() - capturedAtMs;
+  unsigned long elapsedMinutes = elapsedMs / 60000;
+
+  if (elapsedMinutes < 1) {
+    return "just now";
+  }
+
+  if (elapsedMinutes < 60) {
+    return String(elapsedMinutes) + " min ago";
+  }
+
+  return String(elapsedMinutes / 60) + " hr ago";
+}
+
+void captureHourlyReading() {
+  if (readingHistoryCount < MAX_READING_HISTORY) {
+    readingHistory[readingHistoryCount] = { millis(), currentRawMoistureValue, currentMoistureStatus };
+    readingHistoryCount++;
+    return;
+  }
+
+  for (int i = 1; i < MAX_READING_HISTORY; i++) {
+    readingHistory[i - 1] = readingHistory[i];
+  }
+
+  readingHistory[MAX_READING_HISTORY - 1] = { millis(), currentRawMoistureValue, currentMoistureStatus };
+}
+
 void readMoistureSensor() {
   currentRawMoistureValue = analogRead(SOIL_MOISTURE_PIN);
   currentMoistureStatus = getMoistureStatus(currentRawMoistureValue);
@@ -74,24 +114,44 @@ void readMoistureSensor() {
   Serial.println(currentMoistureStatus);
 }
 
+String buildReadingHistoryHtml() {
+  if (readingHistoryCount == 0) {
+    return "<div class='note'>No hourly readings captured yet.</div>";
+  }
+
+  String html = "<table><thead><tr><th>Captured</th><th>Raw</th><th>Status</th></tr></thead><tbody>";
+
+  for (int i = readingHistoryCount - 1; i >= 0; i--) {
+    html += "<tr><td>" + formatElapsedTime(readingHistory[i].capturedAtMs) + "</td>";
+    html += "<td>" + String(readingHistory[i].rawValue) + "</td>";
+    html += "<td>" + readingHistory[i].status + "</td></tr>";
+  }
+
+  html += "</tbody></table>";
+  return html;
+}
+
 String buildDashboardPage() {
   String page = "<!doctype html><html><head>";
   page += "<meta name='viewport' content='width=device-width, initial-scale=1'>";
   page += "<meta http-equiv='refresh' content='5'>";
   page += "<title>AI-CMS Soil Monitor</title>";
   page += "<style>body{font-family:Arial,sans-serif;margin:24px;background:#f6f7f8;color:#111;}";
-  page += ".card{max-width:520px;padding:20px;border-radius:14px;background:#fff;box-shadow:0 2px 12px rgba(0,0,0,.12);}";
-  page += "h1{font-size:24px;margin:0 0 8px;} .label{color:#555;margin-top:18px;}";
+  page += ".card{max-width:620px;padding:20px;border-radius:14px;background:#fff;box-shadow:0 2px 12px rgba(0,0,0,.12);}";
+  page += "h1{font-size:24px;margin:0 0 8px;} h2{font-size:20px;margin:24px 0 8px;} .label{color:#555;margin-top:18px;}";
   page += ".value{font-size:34px;font-weight:700;margin-top:4px;} .status{font-size:42px;font-weight:800;margin-top:4px;}";
   page += ".note{font-size:14px;color:#666;margin-top:18px;line-height:1.4;}";
+  page += "table{width:100%;border-collapse:collapse;margin-top:10px;} th,td{text-align:left;padding:8px;border-bottom:1px solid #ddd;} th{color:#555;font-size:13px;}";
   page += "</style></head><body><div class='card'>";
   page += "<h1>AI-CMS Soil Monitor</h1>";
-  page += "<div class='note'>Local ESP32 dashboard shell — one sensor only.</div>";
+  page += "<div class='note'>Local ESP32 dashboard — one sensor only.</div>";
   page += "<div class='label'>Raw moisture value</div>";
   page += "<div class='value'>" + String(currentRawMoistureValue) + "</div>";
   page += "<div class='label'>Current status</div>";
   page += "<div class='status'>" + currentMoistureStatus + "</div>";
-  page += "<div class='note'>Page refreshes every 5 seconds. No hourly storage or bar graph yet.</div>";
+  page += "<h2>Recent hourly readings</h2>";
+  page += buildReadingHistoryHtml();
+  page += "<div class='note'>Page refreshes every 5 seconds. Readings are stored in runtime memory only.</div>";
   page += "</div></body></html>";
   return page;
 }
@@ -104,11 +164,13 @@ void setup() {
   Serial.begin(115200);
   delay(1000);
 
-  Serial.println("AI-CMS V1-M4 — Local ESP32 Web Dashboard Shell");
+  Serial.println("AI-CMS V1-M5 — Hourly Reading Storage");
   Serial.println("Reading one capacitive soil moisture sensor...");
   Serial.println("Status thresholds: DRY / WATCH / GOOD / WET");
 
   readMoistureSensor();
+  captureHourlyReading();
+  lastHourlyCaptureTime = millis();
 
   WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
   Serial.print("Connecting to Wi-Fi");
@@ -134,5 +196,10 @@ void loop() {
   if (currentTime - lastReadTime >= READ_INTERVAL_MS) {
     lastReadTime = currentTime;
     readMoistureSensor();
+  }
+
+  if (currentTime - lastHourlyCaptureTime >= HOURLY_CAPTURE_INTERVAL_MS) {
+    lastHourlyCaptureTime = currentTime;
+    captureHourlyReading();
   }
 }
