@@ -98,10 +98,17 @@
     }
 
     .card h2 {
-      margin: 0 0 16px;
+      margin: 0 0 10px;
       font-size: 17px;
       color: #dbeafe;
       letter-spacing: -0.01em;
+    }
+
+    .helper {
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.5;
+      margin: 0 0 16px;
     }
 
     .moisture-card {
@@ -223,29 +230,35 @@
     <section class="grid">
       <article class="card moisture-card">
         <div>
-          <h2>Moisture</h2>
+          <h2>Current Soil Moisture</h2>
+          <p class="helper">Current estimated soil condition from the Front Yard monitoring point.</p>
           <div class="moisture-value">42%</div>
-          <p class="subtitle">Raw mock value: 1724 ADC</p>
+          <p class="subtitle">Sensor reading · Mock ADC value: 1724</p>
         </div>
-        <div class="status-row" aria-label="Moisture status options">
-          <div class="status-chip">DRY</div>
-          <div class="status-chip">WATCH</div>
-          <div class="status-chip active">GOOD</div>
-          <div class="status-chip">WET</div>
+        <div>
+          <div class="status-row" aria-label="Moisture status options">
+            <div class="status-chip">DRY</div>
+            <div class="status-chip">WATCH</div>
+            <div class="status-chip active">GOOD</div>
+            <div class="status-chip">WET</div>
+          </div>
+          <p class="note">GOOD means soil moisture is currently within the target range for this mock node.</p>
         </div>
       </article>
 
       <aside class="card">
-        <h2>Node Health</h2>
-        <div class="metric"><span>Status</span><strong>Online</strong></div>
-        <div class="metric"><span>Last Update</span><strong>12 min ago</strong></div>
-        <div class="metric"><span>Power Source</span><strong>USB prototype</strong></div>
-        <div class="metric"><span>Soil Temperature</span><strong>68°F mock</strong></div>
+        <h2>Node Status & Health</h2>
+        <p class="helper">Quick health snapshot for the local prototype monitoring node.</p>
+        <div class="metric"><span>Connection Status</span><strong>Online</strong></div>
+        <div class="metric"><span>Last Dashboard Update</span><strong>12 min ago</strong></div>
+        <div class="metric"><span>Prototype Power Source</span><strong>USB prototype</strong></div>
+        <div class="metric"><span>Estimated Soil Temperature</span><strong>68°F mock</strong></div>
         <p class="note">Prototype UI only. No hardware, cloud, database, or multi-node connection is active.</p>
       </aside>
 
       <article class="card wide">
-        <h2>Hourly Moisture Trend</h2>
+        <h2>Recent Moisture Trend</h2>
+        <p class="helper">Mock hourly moisture history showing how soil conditions changed through the morning.</p>
         <div class="bars">
           <div class="bar-row"><span>6 AM</span><div class="bar-track"><div class="bar-fill" style="width:36%"></div></div><span>36%</span></div>
           <div class="bar-row"><span>7 AM</span><div class="bar-track"><div class="bar-fill" style="width:38%"></div></div><span>38%</span></div>
