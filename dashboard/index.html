@@ -1,0 +1,225 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>AI-CMS | Front Yard Soil Node</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #07111f;
+      --panel: #0d1b2d;
+      --panel-soft: #12243a;
+      --text: #eef6ff;
+      --muted: #8fa4bd;
+      --line: rgba(255, 255, 255, 0.1);
+      --accent: #42d392;
+      --watch: #f7c948;
+      --dry: #ff7a59;
+      --wet: #4dabf7;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: radial-gradient(circle at top left, rgba(66, 211, 146, 0.18), transparent 34%), var(--bg);
+      color: var(--text);
+      padding: 24px;
+    }
+
+    .shell {
+      max-width: 1120px;
+      margin: 0 auto;
+    }
+
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      align-items: flex-start;
+      margin-bottom: 24px;
+    }
+
+    .eyebrow {
+      color: var(--accent);
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    h1 {
+      margin: 6px 0 4px;
+      font-size: clamp(30px, 5vw, 54px);
+      line-height: 1;
+    }
+
+    .subtitle { color: var(--muted); margin: 0; }
+
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      border: 1px solid rgba(66, 211, 146, 0.38);
+      background: rgba(66, 211, 146, 0.12);
+      color: var(--accent);
+      border-radius: 999px;
+      padding: 10px 14px;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 1.35fr 0.9fr;
+      gap: 18px;
+    }
+
+    .card {
+      background: linear-gradient(180deg, rgba(255,255,255,0.055), rgba(255,255,255,0.025)), var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      padding: 22px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.28);
+    }
+
+    .card h2 {
+      margin: 0 0 14px;
+      font-size: 17px;
+      color: #dbeafe;
+    }
+
+    .moisture-value {
+      font-size: clamp(56px, 10vw, 104px);
+      line-height: 0.92;
+      font-weight: 900;
+      letter-spacing: -0.06em;
+      margin: 8px 0;
+    }
+
+    .status-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 18px;
+    }
+
+    .status-chip {
+      border: 1px solid var(--line);
+      background: var(--panel-soft);
+      border-radius: 14px;
+      padding: 10px 12px;
+      color: var(--muted);
+      font-weight: 800;
+    }
+
+    .status-chip.active {
+      color: #061019;
+      background: var(--accent);
+      border-color: var(--accent);
+    }
+
+    .metric {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 14px 0;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .metric:last-child { border-bottom: 0; }
+    .metric span { color: var(--muted); }
+    .metric strong { text-align: right; }
+
+    .bars { display: grid; gap: 10px; }
+
+    .bar-row {
+      display: grid;
+      grid-template-columns: 58px 1fr 54px;
+      gap: 10px;
+      align-items: center;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .bar-track {
+      height: 16px;
+      background: rgba(255,255,255,0.08);
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    .bar-fill {
+      height: 100%;
+      border-radius: 999px;
+      background: linear-gradient(90deg, var(--wet), var(--accent));
+    }
+
+    .note {
+      margin-top: 14px;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.45;
+    }
+
+    @media (max-width: 780px) {
+      body { padding: 16px; }
+      .topbar { flex-direction: column; }
+      .grid { grid-template-columns: 1fr; }
+      .bar-row { grid-template-columns: 48px 1fr 46px; }
+    }
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <header class="topbar">
+      <div>
+        <div class="eyebrow">AI-CMS Mock Dashboard</div>
+        <h1>Front Yard Soil Node</h1>
+        <p class="subtitle">Local condition-monitoring UI concept using mock data only.</p>
+      </div>
+      <div class="chip">GOOD · Online</div>
+    </header>
+
+    <section class="grid">
+      <article class="card">
+        <h2>Moisture</h2>
+        <div class="moisture-value">42%</div>
+        <p class="subtitle">Raw mock value: 1724 ADC</p>
+        <div class="status-row" aria-label="Moisture status options">
+          <div class="status-chip">DRY</div>
+          <div class="status-chip">WATCH</div>
+          <div class="status-chip active">GOOD</div>
+          <div class="status-chip">WET</div>
+        </div>
+      </article>
+
+      <aside class="card">
+        <h2>Node Health</h2>
+        <div class="metric"><span>Status</span><strong>Online</strong></div>
+        <div class="metric"><span>Last Update</span><strong>12 min ago</strong></div>
+        <div class="metric"><span>Power Source</span><strong>USB prototype</strong></div>
+        <div class="metric"><span>Soil Temperature</span><strong>68°F mock</strong></div>
+        <p class="note">Prototype UI only. No hardware, cloud, database, or multi-node connection is active.</p>
+      </aside>
+
+      <article class="card" style="grid-column: 1 / -1;">
+        <h2>Hourly Moisture Trend</h2>
+        <div class="bars">
+          <div class="bar-row"><span>6 AM</span><div class="bar-track"><div class="bar-fill" style="width:36%"></div></div><span>36%</span></div>
+          <div class="bar-row"><span>7 AM</span><div class="bar-track"><div class="bar-fill" style="width:38%"></div></div><span>38%</span></div>
+          <div class="bar-row"><span>8 AM</span><div class="bar-track"><div class="bar-fill" style="width:41%"></div></div><span>41%</span></div>
+          <div class="bar-row"><span>9 AM</span><div class="bar-track"><div class="bar-fill" style="width:42%"></div></div><span>42%</span></div>
+          <div class="bar-row"><span>10 AM</span><div class="bar-track"><div class="bar-fill" style="width:44%"></div></div><span>44%</span></div>
+          <div class="bar-row"><span>11 AM</span><div class="bar-track"><div class="bar-fill" style="width:42%"></div></div><span>42%</span></div>
+        </div>
+        <p class="note">Mock hourly bars show recent moisture trend for the single Front Yard Soil Node.</p>
+      </article>
+    </section>
+  </main>
+</body>
+</html>
