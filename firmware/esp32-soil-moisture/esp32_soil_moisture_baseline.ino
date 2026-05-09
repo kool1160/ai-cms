@@ -1,10 +1,11 @@
 /*
-  AI-CMS V1-M5 — Hourly Reading Storage
+  AI-CMS V1-M6 — Dashboard Bar Graph
 
   Purpose:
   Read one capacitive soil moisture sensor on an ESP32, print raw analog values,
   output a basic soil status to the Serial Monitor, serve a simple local dashboard,
-  and keep recent hourly readings in runtime memory.
+  keep recent hourly readings in runtime memory, and display those readings as
+  lightweight dashboard bars.
 
   Wiring / Pin Notes:
   - Sensor VCC  -> ESP32 3.3V
@@ -26,7 +27,7 @@
   Guardrails:
   - One sensor only.
   - Runtime memory only.
-  - No database, bar graph, cloud, AI analytics, or mobile app features.
+  - No database, cloud, AI analytics, mobile app, platform features, or multiple sensors.
 */
 
 #include <WiFi.h>
@@ -39,6 +40,7 @@ const int SOIL_MOISTURE_PIN = 34;
 const unsigned long READ_INTERVAL_MS = 1000;
 const unsigned long HOURLY_CAPTURE_INTERVAL_MS = 3600000;
 const int MAX_READING_HISTORY = 24;
+const int ADC_MAX_VALUE = 4095;
 
 // Temporary starting thresholds. Calibrate with real dry-air and wet-soil readings.
 const int DRY_THRESHOLD = 3000;
@@ -114,6 +116,35 @@ void readMoistureSensor() {
   Serial.println(currentMoistureStatus);
 }
 
+String buildReadingBarsHtml() {
+  if (readingHistoryCount == 0) {
+    return "<div class='note'>No readings available for graph yet.</div>";
+  }
+
+  String html = "<div class='barGraph'>";
+
+  for (int i = readingHistoryCount - 1; i >= 0; i--) {
+    int barWidth = map(readingHistory[i].rawValue, 0, ADC_MAX_VALUE, 4, 100);
+
+    if (barWidth < 4) {
+      barWidth = 4;
+    }
+
+    if (barWidth > 100) {
+      barWidth = 100;
+    }
+
+    html += "<div class='barRow'>";
+    html += "<div class='barLabel'>" + formatElapsedTime(readingHistory[i].capturedAtMs) + "</div>";
+    html += "<div class='barTrack'><div class='barFill' style='width:" + String(barWidth) + "%;'></div></div>";
+    html += "<div class='barValue'>" + String(readingHistory[i].rawValue) + "</div>";
+    html += "</div>";
+  }
+
+  html += "</div>";
+  return html;
+}
+
 String buildReadingHistoryHtml() {
   if (readingHistoryCount == 0) {
     return "<div class='note'>No hourly readings captured yet.</div>";
@@ -137,10 +168,13 @@ String buildDashboardPage() {
   page += "<meta http-equiv='refresh' content='5'>";
   page += "<title>AI-CMS Soil Monitor</title>";
   page += "<style>body{font-family:Arial,sans-serif;margin:24px;background:#f6f7f8;color:#111;}";
-  page += ".card{max-width:620px;padding:20px;border-radius:14px;background:#fff;box-shadow:0 2px 12px rgba(0,0,0,.12);}";
+  page += ".card{max-width:680px;padding:20px;border-radius:14px;background:#fff;box-shadow:0 2px 12px rgba(0,0,0,.12);}";
   page += "h1{font-size:24px;margin:0 0 8px;} h2{font-size:20px;margin:24px 0 8px;} .label{color:#555;margin-top:18px;}";
   page += ".value{font-size:34px;font-weight:700;margin-top:4px;} .status{font-size:42px;font-weight:800;margin-top:4px;}";
   page += ".note{font-size:14px;color:#666;margin-top:18px;line-height:1.4;}";
+  page += ".barGraph{margin-top:10px;} .barRow{display:grid;grid-template-columns:80px 1fr 56px;gap:8px;align-items:center;margin:8px 0;}";
+  page += ".barLabel,.barValue{font-size:13px;color:#555;} .barTrack{height:18px;background:#e5e7eb;border-radius:10px;overflow:hidden;}";
+  page += ".barFill{height:100%;background:#111;border-radius:10px;}";
   page += "table{width:100%;border-collapse:collapse;margin-top:10px;} th,td{text-align:left;padding:8px;border-bottom:1px solid #ddd;} th{color:#555;font-size:13px;}";
   page += "</style></head><body><div class='card'>";
   page += "<h1>AI-CMS Soil Monitor</h1>";
@@ -149,9 +183,11 @@ String buildDashboardPage() {
   page += "<div class='value'>" + String(currentRawMoistureValue) + "</div>";
   page += "<div class='label'>Current status</div>";
   page += "<div class='status'>" + currentMoistureStatus + "</div>";
+  page += "<h2>Recent reading graph</h2>";
+  page += buildReadingBarsHtml();
   page += "<h2>Recent hourly readings</h2>";
   page += buildReadingHistoryHtml();
-  page += "<div class='note'>Page refreshes every 5 seconds. Readings are stored in runtime memory only.</div>";
+  page += "<div class='note'>Bars represent raw ESP32 ADC moisture values. Readings are stored in runtime memory only.</div>";
   page += "</div></body></html>";
   return page;
 }
@@ -164,7 +200,7 @@ void setup() {
   Serial.begin(115200);
   delay(1000);
 
-  Serial.println("AI-CMS V1-M5 — Hourly Reading Storage");
+  Serial.println("AI-CMS V1-M6 — Dashboard Bar Graph");
   Serial.println("Reading one capacitive soil moisture sensor...");
   Serial.println("Status thresholds: DRY / WATCH / GOOD / WET");
 
