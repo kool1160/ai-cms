@@ -14,8 +14,9 @@
 </head>
 <body>
   <main class="shell">
-    <header class="topbar">
-      <div>
+    <!-- Dashboard Header -->
+    <header class="topbar" aria-label="Dashboard header">
+      <div class="dashboard-title-block">
         <div class="eyebrow" data-eyebrow>AI-CMS V1 Local Dashboard</div>
         <h1 data-node-name>Front Yard Soil Node</h1>
         <p class="subtitle" data-subtitle>Clean local condition-monitoring app view for the one-sensor V1 prototype.</p>
@@ -23,15 +24,17 @@
       <div class="chip" data-chip>GOOD · Online</div>
     </header>
 
-    <section class="grid">
-      <article class="card moisture-card">
-        <div>
+    <section class="grid" aria-label="Front Yard Soil Node dashboard">
+      <!-- Current Moisture -->
+      <article class="card moisture-card" aria-label="Current soil moisture">
+        <div class="moisture-summary">
           <h2>Current Soil Moisture</h2>
           <p class="helper" data-moisture-helper>Current estimated soil condition from the Front Yard monitoring point.</p>
           <div class="moisture-value" data-moisture-value>42%</div>
           <p class="subtitle" data-adc-value>Live moisture reading · Mock ADC value: 1724</p>
         </div>
-        <div>
+
+        <div class="moisture-status">
           <div class="status-row" aria-label="Moisture status options" data-status-options>
             <div class="status-chip">DRY</div>
             <div class="status-chip">WATCH</div>
@@ -42,7 +45,8 @@
         </div>
       </article>
 
-      <aside class="card">
+      <!-- Node Health -->
+      <aside class="card node-health-card" aria-label="Node health">
         <h2>Node Health</h2>
         <p class="helper" data-node-health-helper>Quick health snapshot for the local prototype monitoring node.</p>
         <div class="metric"><span>Connection Status</span><strong data-connection-status>Online</strong></div>
@@ -52,7 +56,8 @@
         <p class="note" data-node-health-note>Prototype UI only. No DS18B20 wiring/code, cloud, database, or multi-node connection is active.</p>
       </aside>
 
-      <article class="card wide">
+      <!-- Moisture Trend -->
+      <article class="card wide trend-card" aria-label="Recent moisture trend">
         <h2>Recent Moisture Trend</h2>
         <p class="helper" data-trend-helper>Hourly moisture history showing how soil conditions changed through the morning.</p>
         <div class="bars" data-trend-bars>
@@ -66,7 +71,8 @@
         <p class="note" data-trend-note>Bars preserve the V1 dashboard graph pattern for the single Front Yard Soil Node.</p>
       </article>
 
-      <article class="card wide">
+      <!-- Status Examples -->
+      <article class="card wide status-examples-card" aria-label="Status examples">
         <h2>Status Examples</h2>
         <p class="helper" data-status-examples-helper>Simple reference states for the same Front Yard Soil Node.</p>
         <div class="state-grid" data-status-examples>
