@@ -31,7 +31,7 @@
         radial-gradient(circle at 88% 12%, rgba(77, 171, 247, 0.15), transparent 26%),
         var(--bg);
       color: var(--text);
-      padding: clamp(14px, 3vw, 32px);
+      padding: clamp(12px, 2.8vw, 32px);
     }
 
     .shell { width: min(100%, 1180px); margin: 0 auto; }
@@ -39,23 +39,23 @@
     .topbar {
       display: flex;
       justify-content: space-between;
-      gap: 18px;
+      gap: clamp(12px, 2vw, 18px);
       align-items: flex-start;
-      margin-bottom: clamp(18px, 3vw, 30px);
+      margin-bottom: clamp(16px, 2.6vw, 28px);
     }
 
     .eyebrow {
       color: var(--accent);
       letter-spacing: 0.14em;
       text-transform: uppercase;
-      font-size: 12px;
+      font-size: clamp(10px, 2vw, 12px);
       font-weight: 800;
     }
 
     h1 {
       margin: 8px 0 6px;
-      font-size: clamp(32px, 6vw, 58px);
-      line-height: 0.96;
+      font-size: clamp(30px, 6vw, 58px);
+      line-height: 0.98;
       letter-spacing: -0.055em;
     }
 
@@ -78,32 +78,32 @@
     .grid {
       display: grid;
       grid-template-columns: minmax(0, 1.35fr) minmax(280px, 0.9fr);
-      gap: clamp(14px, 2vw, 20px);
+      gap: clamp(12px, 2vw, 20px);
       align-items: stretch;
     }
 
     .card {
       background: linear-gradient(180deg, rgba(255,255,255,0.07), rgba(255,255,255,0.025)), var(--panel);
       border: 1px solid var(--line);
-      border-radius: clamp(20px, 3vw, 28px);
-      padding: clamp(18px, 3vw, 28px);
+      border-radius: clamp(18px, 3vw, 28px);
+      padding: clamp(16px, 2.7vw, 28px);
       box-shadow: var(--shadow);
     }
 
     .card h2 { margin: 0 0 10px; font-size: 17px; color: #dbeafe; letter-spacing: -0.01em; }
-    .helper { color: var(--muted); font-size: 13px; line-height: 1.5; margin: 0 0 16px; }
+    .helper { color: var(--muted); font-size: 13px; line-height: 1.5; margin: 0 0 14px; }
 
-    .moisture-card { min-height: 270px; display: flex; flex-direction: column; justify-content: space-between; }
+    .moisture-card { min-height: 255px; display: flex; flex-direction: column; justify-content: space-between; }
 
     .moisture-value {
-      font-size: clamp(70px, 12vw, 122px);
-      line-height: 0.88;
+      font-size: clamp(66px, 11vw, 118px);
+      line-height: 0.9;
       font-weight: 950;
       letter-spacing: -0.08em;
-      margin: 12px 0 10px;
+      margin: 10px 0 8px;
     }
 
-    .status-row { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; margin-top: 20px; }
+    .status-row { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; margin-top: 18px; }
 
     .status-chip {
       border: 1px solid var(--line);
@@ -118,13 +118,13 @@
 
     .status-chip.active { color: #061019; background: var(--accent); border-color: var(--accent); box-shadow: 0 10px 28px rgba(66, 211, 146, 0.28); }
 
-    .metric { display: flex; justify-content: space-between; gap: 12px; padding: 15px 0; border-bottom: 1px solid var(--line); }
+    .metric { display: flex; justify-content: space-between; gap: 12px; padding: 14px 0; border-bottom: 1px solid var(--line); }
     .metric:last-of-type { border-bottom: 0; }
     .metric span { color: var(--muted); }
     .metric strong { text-align: right; }
 
     .wide { grid-column: 1 / -1; }
-    .bars { display: grid; gap: 12px; margin-top: 4px; }
+    .bars { display: grid; gap: 11px; margin-top: 4px; }
 
     .bar-row {
       display: grid;
@@ -138,10 +138,10 @@
 
     .bar-track { height: clamp(16px, 2.5vw, 20px); background: rgba(255,255,255,0.08); border-radius: 999px; overflow: hidden; border: 1px solid rgba(255,255,255,0.05); }
     .bar-fill { height: 100%; border-radius: 999px; background: linear-gradient(90deg, var(--wet), var(--accent)); }
-    .note { margin-top: 16px; color: var(--muted); font-size: 13px; line-height: 1.5; }
+    .note { margin-top: 14px; color: var(--muted); font-size: 13px; line-height: 1.5; }
 
     .state-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
-    .state-card { border: 1px solid var(--line); border-radius: 18px; padding: 16px; background: rgba(255,255,255,0.035); }
+    .state-card { border: 1px solid var(--line); border-radius: 18px; padding: 15px; background: rgba(255,255,255,0.035); }
     .state-card strong { display: block; font-size: 18px; margin-bottom: 6px; }
     .state-card span { display: block; color: var(--muted); font-size: 13px; line-height: 1.4; }
     .state-dry { border-color: rgba(255,122,89,.55); }
@@ -155,16 +155,19 @@
 
     @media (max-width: 900px) {
       .grid { grid-template-columns: 1fr; }
-      .moisture-card { min-height: 240px; }
+      .moisture-card { min-height: 230px; }
       .state-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     }
 
     @media (max-width: 560px) {
+      body { padding: 12px; }
       .topbar { flex-direction: column; }
+      h1 { font-size: clamp(34px, 11vw, 44px); }
       .chip { width: 100%; justify-content: center; }
       .status-row, .state-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
       .bar-row { grid-template-columns: 48px minmax(0, 1fr) 46px; gap: 8px; }
       .metric { align-items: flex-start; }
+      .state-card { padding: 13px; }
     }
   </style>
 </head>
@@ -172,9 +175,9 @@
   <main class="shell">
     <header class="topbar">
       <div>
-        <div class="eyebrow">AI-CMS Mock Dashboard</div>
+        <div class="eyebrow">AI-CMS V1 Local Dashboard</div>
         <h1>Front Yard Soil Node</h1>
-        <p class="subtitle">Local condition-monitoring UI concept using mock data only.</p>
+        <p class="subtitle">Clean local condition-monitoring app view for the one-sensor V1 prototype.</p>
       </div>
       <div class="chip">GOOD · Online</div>
     </header>
@@ -185,7 +188,7 @@
           <h2>Current Soil Moisture</h2>
           <p class="helper">Current estimated soil condition from the Front Yard monitoring point.</p>
           <div class="moisture-value">42%</div>
-          <p class="subtitle">Sensor reading · Mock ADC value: 1724</p>
+          <p class="subtitle">Live moisture reading · Mock ADC value: 1724</p>
         </div>
         <div>
           <div class="status-row" aria-label="Moisture status options">
@@ -199,18 +202,18 @@
       </article>
 
       <aside class="card">
-        <h2>Node Status & Health</h2>
+        <h2>Node Health</h2>
         <p class="helper">Quick health snapshot for the local prototype monitoring node.</p>
         <div class="metric"><span>Connection Status</span><strong>Online</strong></div>
-        <div class="metric"><span>Last Dashboard Update</span><strong>12 min ago</strong></div>
-        <div class="metric"><span>Prototype Power Source</span><strong>USB prototype</strong></div>
-        <div class="metric"><span>Estimated Soil Temperature</span><strong>68°F mock</strong></div>
-        <p class="note">Prototype UI only. No hardware, cloud, database, or multi-node connection is active.</p>
+        <div class="metric"><span>Last Update</span><strong>12 min ago</strong></div>
+        <div class="metric"><span>Power Source</span><strong>USB prototype</strong></div>
+        <div class="metric"><span>Soil Temperature</span><strong>68°F placeholder</strong></div>
+        <p class="note">Prototype UI only. No DS18B20 wiring/code, cloud, database, or multi-node connection is active.</p>
       </aside>
 
       <article class="card wide">
         <h2>Recent Moisture Trend</h2>
-        <p class="helper">Mock hourly moisture history showing how soil conditions changed through the morning.</p>
+        <p class="helper">Hourly moisture history showing how soil conditions changed through the morning.</p>
         <div class="bars">
           <div class="bar-row"><span>6 AM</span><div class="bar-track"><div class="bar-fill" style="width:36%"></div></div><span>36%</span></div>
           <div class="bar-row"><span>7 AM</span><div class="bar-track"><div class="bar-fill" style="width:38%"></div></div><span>38%</span></div>
@@ -219,19 +222,19 @@
           <div class="bar-row"><span>10 AM</span><div class="bar-track"><div class="bar-fill" style="width:44%"></div></div><span>44%</span></div>
           <div class="bar-row"><span>11 AM</span><div class="bar-track"><div class="bar-fill" style="width:42%"></div></div><span>42%</span></div>
         </div>
-        <p class="note">Mock hourly bars show recent moisture trend for the single Front Yard Soil Node.</p>
+        <p class="note">Bars preserve the V1 dashboard graph pattern for the single Front Yard Soil Node.</p>
       </article>
 
       <article class="card wide">
-        <h2>Mock Soil Status Examples</h2>
-        <p class="helper">Simple visual examples for the four status states used by this same Front Yard Soil Node.</p>
+        <h2>Status Examples</h2>
+        <p class="helper">Simple reference states for the same Front Yard Soil Node.</p>
         <div class="state-grid">
-          <div class="state-card state-dry"><strong>DRY</strong><span>Example: 18% moisture · needs attention soon.</span></div>
-          <div class="state-card state-watch"><strong>WATCH</strong><span>Example: 29% moisture · getting low, monitor closely.</span></div>
-          <div class="state-card state-good"><strong>GOOD</strong><span>Example: 42% moisture · target range for the mock node.</span></div>
-          <div class="state-card state-wet"><strong>WET</strong><span>Example: 78% moisture · soil is heavily watered or saturated.</span></div>
+          <div class="state-card state-dry"><strong>DRY</strong><span>18% moisture · needs attention soon.</span></div>
+          <div class="state-card state-watch"><strong>WATCH</strong><span>29% moisture · getting low, monitor closely.</span></div>
+          <div class="state-card state-good"><strong>GOOD</strong><span>42% moisture · target range for the prototype.</span></div>
+          <div class="state-card state-wet"><strong>WET</strong><span>78% moisture · heavily watered or saturated.</span></div>
         </div>
-        <p class="note">These are mock examples only; they do not connect to real hardware or additional nodes.</p>
+        <p class="note">These examples stay inside the current V1 application polish scope.</p>
       </article>
     </section>
   </main>
