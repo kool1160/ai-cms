@@ -1,6 +1,6 @@
 # AI-CMS V2-M15 - Launch From Home Screen Verification
 
-Status: BLOCKED / WAITING ON CHRIS LAUNCH VERIFICATION
+Status: VERIFIED / READY FOR TESTING
 
 Version: V2
 
@@ -8,25 +8,36 @@ Version: V2
 Record whether the AI-CMS Home Screen icon/bookmark launches the dashboard successfully.
 
 ## Verification Source
-Required source:
-- Chris manual verification after tapping the AI-CMS Home Screen icon on iPhone/iPad.
+Source:
+- Chris manual iPhone verification after launching AI-CMS from the Home Screen icon.
+- Chris provided screenshot evidence after launch.
 
-Current source status:
-- Home Screen icon/name was verified in V2-M14.
-- Launch-from-icon behavior was not included in this task handoff.
-- No live iPhone/iPad launch check is available through the current tool path.
+## Prior Icon Verification
+V2-M14 already verified:
+- AI-CMS Home Screen icon appears.
+- Bookmark/app name appears as `AI-CMS`.
+- Icon is visually recognizable and matches AI-CMS branding direction.
 
-## Manual Checks Required
-Chris needs to verify:
-- Tap the AI-CMS Home Screen icon.
-- Dashboard opens from the Home Screen icon.
-- Dashboard loads correctly.
-- AI-CMS icon/name still appear correctly.
-- No obvious launch issue occurs.
-- No obvious layout issue occurs after launch.
+## Launch Verification Result
+Confirmed from Chris evidence:
+- AI-CMS Home Screen icon was used.
+- Dashboard opened successfully from the icon.
+- Dashboard loaded correctly on phone-sized view.
+- CSS styling loaded.
+- No obvious launch issue visible.
+- No obvious phone layout issue visible.
+
+## Expected Values Visible
+Confirmed expected values:
+- Moisture: `42%`
+- Status: `GOOD`
+- Node Health: `Online`
+- Raw ADC: `1724`
 
 ## Recorded Result
-Not yet verified.
+PASS.
+
+AI-CMS Home Screen launch behavior is verified from Chris evidence.
 
 ## Runtime Changes
 No runtime files changed.
@@ -42,4 +53,4 @@ No added scope:
 - No V1 reopening.
 
 ## Next Needed
-Chris should tap the AI-CMS Home Screen icon and report whether the dashboard opens correctly.
+Send this milestone to Testing for lock/reject decision.
