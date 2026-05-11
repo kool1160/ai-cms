@@ -1,6 +1,6 @@
 # AI-CMS V2-M13 - Dashboard Manual Device Smoke Check
 
-Status: BLOCKED / WAITING ON CHRIS VERIFICATION
+Status: VERIFIED / READY FOR TESTING
 
 Version: V2
 
@@ -8,27 +8,44 @@ Version: V2
 Record the real-device/manual smoke check for the V2 dashboard after static file separation.
 
 ## Verification Source
-Required source:
-- Chris manual verification on phone, iPad, browser, or deployed/local dashboard path.
+Source:
+- Chris manual device screenshots provided in chat.
+- Device/browser view showed the deployed/local V2 dashboard rendering on a phone-sized screen.
 
-Current source status:
-- Chris verification result was not included in the task handoff.
-- No live device/browser check is available through the current tool path.
+## Manual Checks Recorded
 
-## Manual Checks Required
-Chris needs to verify:
+Confirmed from screenshots:
 - Dashboard opens.
-- CSS loads.
+- CSS loads with dark dashboard styling.
 - Moisture card displays.
 - Status displays `GOOD`.
 - Node Health displays `Online`.
 - Raw ADC displays `1724`.
-- Graph/status examples display.
-- No obvious layout break on phone/iPad/browser.
-- Bookmark/app icon appears if available after saving to home screen.
+- Recent Moisture Trend graph displays.
+- Status examples display.
+- No obvious layout break visible on phone-sized view.
+- Cards, bars, status buttons, and text remain readable.
+
+Bookmark/app icon:
+- Not verified from the provided screenshots.
 
 ## Recorded Result
-Not yet verified.
+PASS with one note:
+- Dashboard device smoke check passed visually.
+- Bookmark/app icon home-screen behavior remains not verified in this record.
+
+## Observed Values
+Screenshots show expected V2/V1 dashboard values:
+- Node: `Front Yard Soil Node`
+- Status: `GOOD · Online`
+- Moisture: `42%`
+- Raw ADC: `1724`
+- Connection Status: `Online`
+- Last Update: `12 min ago`
+- Power Source: `USB prototype`
+- Soil Temperature: `68°F placeholder`
+- Graph values visible: 36%, 38%, 41%, 42%, 44%, 42%
+- Status examples visible: DRY / WATCH / GOOD / WET
 
 ## Runtime Changes
 No runtime files changed.
@@ -44,4 +61,4 @@ No added scope:
 - No V1 reopening.
 
 ## Next Needed
-Chris should perform the manual device smoke check and return the result to Planning/Testing.
+Send this milestone to Testing for lock/reject decision.
