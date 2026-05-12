@@ -42,9 +42,10 @@ function renderDashboard() {
   setText('[data-node-name]', data.nodeName);
   setText('[data-subtitle]', data.subtitle);
   setText('[data-chip]', `${data.status} · ${data.connectionStatus}`);
+  setText('[data-source-label]', data.dataSourceLabel);
   setText('[data-moisture-helper]', data.currentMoistureHelper);
   setText('[data-moisture-value]', `${data.currentMoisture}%`);
-  setText('[data-adc-value]', `Live moisture reading · Mock ADC value: ${data.mockAdcValue}`);
+  setText('[data-adc-value]', `Mock reading · ADC demo value: ${data.mockAdcValue}`);
   setText('[data-status-note]', data.currentStatusNote);
   setText('[data-node-health-helper]', data.nodeHealthHelper);
   setText('[data-connection-status]', data.connectionStatus);
