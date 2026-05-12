@@ -28,7 +28,7 @@
       <div class="dashboard-title-block">
         <div class="eyebrow" data-eyebrow>AI-CMS V1 Local Dashboard</div>
         <h1 data-node-name>Front Yard Soil Node</h1>
-        <p class="subtitle" data-subtitle>Clean local condition-monitoring app view for the one-sensor V1 prototype.</p>
+        <p class="subtitle" data-subtitle>Demo app view using mock/fallback values for the one-sensor V1 prototype.</p>
       </div>
       <div class="chip" data-chip>GOOD · Online</div>
     </header>
@@ -37,10 +37,13 @@
       <!-- Current Moisture -->
       <article class="card moisture-card" aria-label="Current soil moisture">
         <div class="moisture-summary">
-          <h2>Current Soil Moisture</h2>
-          <p class="helper" data-moisture-helper>Current estimated soil condition from the Front Yard monitoring point.</p>
+          <div class="section-title-row">
+            <h2>Current Soil Moisture</h2>
+            <span class="data-pill">Demo Data</span>
+          </div>
+          <p class="helper" data-moisture-helper>Mock reading shown for UI/demo verification. Live ESP32 values should be clearly labeled when connected.</p>
           <div class="moisture-value" data-moisture-value>42%</div>
-          <p class="subtitle" data-adc-value>Live moisture reading · Mock ADC value: 1724</p>
+          <p class="subtitle" data-adc-value>Mock reading · ADC demo value: 1724</p>
         </div>
 
         <div class="moisture-status">
@@ -50,25 +53,31 @@
             <div class="status-chip active">GOOD</div>
             <div class="status-chip">WET</div>
           </div>
-          <p class="note" data-status-note>GOOD means soil moisture is currently within the target range for this mock node.</p>
+          <p class="note" data-status-note>GOOD is currently shown from demo data, not a confirmed live ESP32 reading.</p>
         </div>
       </article>
 
       <!-- Node Health -->
       <aside class="card node-health-card" aria-label="Node health">
-        <h2>Node Health</h2>
-        <p class="helper" data-node-health-helper>Quick health snapshot for the local prototype monitoring node.</p>
+        <div class="section-title-row">
+          <h2>Node Health</h2>
+          <span class="data-pill muted">Demo</span>
+        </div>
+        <p class="helper" data-node-health-helper>Demo node health shown for app verification. Live Node should be used only when a real ESP32 source is active.</p>
         <div class="metric"><span>Connection Status</span><strong data-connection-status>Online</strong></div>
         <div class="metric"><span>Last Update</span><strong data-last-update>12 min ago</strong></div>
         <div class="metric"><span>Power Source</span><strong data-power-source>USB prototype</strong></div>
         <div class="metric"><span>Soil Temperature</span><strong data-soil-temperature>68°F placeholder</strong></div>
-        <p class="note" data-node-health-note>Prototype UI only. No DS18B20 wiring/code, cloud, database, or multi-node connection is active.</p>
+        <p class="note" data-node-health-note>Demo/fallback UI only. No DS18B20 wiring/code, cloud, database, or multi-node connection is active.</p>
       </aside>
 
       <!-- Moisture Trend -->
       <article class="card wide trend-card" aria-label="Recent moisture trend">
-        <h2>Recent Moisture Trend</h2>
-        <p class="helper" data-trend-helper>Hourly moisture history showing how soil conditions changed through the morning.</p>
+        <div class="section-title-row">
+          <h2>Recent Moisture Trend</h2>
+          <span class="data-pill">Mock Trend</span>
+        </div>
+        <p class="helper" data-trend-helper>Mock hourly moisture history for dashboard display verification.</p>
         <div class="bars" data-trend-bars>
           <div class="bar-row"><span>6 AM</span><div class="bar-track"><div class="bar-fill" style="width:36%"></div></div><span>36%</span></div>
           <div class="bar-row"><span>7 AM</span><div class="bar-track"><div class="bar-fill" style="width:38%"></div></div><span>38%</span></div>
@@ -77,20 +86,23 @@
           <div class="bar-row"><span>10 AM</span><div class="bar-track"><div class="bar-fill" style="width:44%"></div></div><span>44%</span></div>
           <div class="bar-row"><span>11 AM</span><div class="bar-track"><div class="bar-fill" style="width:42%"></div></div><span>42%</span></div>
         </div>
-        <p class="note" data-trend-note>Bars preserve the V1 dashboard graph pattern for the single Front Yard Soil Node.</p>
+        <p class="note" data-trend-note>Demo trend bars preserve the V1 dashboard graph pattern for the single Front Yard Soil Node.</p>
       </article>
 
       <!-- Status Examples -->
       <article class="card wide status-examples-card" aria-label="Status examples">
-        <h2>Status Examples</h2>
-        <p class="helper" data-status-examples-helper>Simple reference states for the same Front Yard Soil Node.</p>
-        <div class="state-grid" data-status-examples>
-          <div class="state-card state-dry"><strong>DRY</strong><span>18% moisture · needs attention soon.</span></div>
-          <div class="state-card state-watch"><strong>WATCH</strong><span>29% moisture · getting low, monitor closely.</span></div>
-          <div class="state-card state-good"><strong>GOOD</strong><span>42% moisture · target range for the prototype.</span></div>
-          <div class="state-card state-wet"><strong>WET</strong><span>78% moisture · heavily watered or saturated.</span></div>
+        <div class="section-title-row">
+          <h2>Status Examples</h2>
+          <span class="data-pill muted">Reference Only</span>
         </div>
-        <p class="note" data-status-examples-note>These examples stay inside the current V1 application polish scope.</p>
+        <p class="helper" data-status-examples-helper>Demo reference states for the same Front Yard Soil Node.</p>
+        <div class="state-grid" data-status-examples>
+          <div class="state-card state-dry"><strong>DRY</strong><span>18% demo moisture · needs attention soon.</span></div>
+          <div class="state-card state-watch"><strong>WATCH</strong><span>29% demo moisture · getting low, monitor closely.</span></div>
+          <div class="state-card state-good"><strong>GOOD</strong><span>42% demo moisture · target range for the prototype.</span></div>
+          <div class="state-card state-wet"><strong>WET</strong><span>78% demo moisture · heavily watered or saturated.</span></div>
+        </div>
+        <p class="note" data-status-examples-note>These examples are demo labels only and are not active live sensor readings.</p>
       </article>
     </section>
   </main>
